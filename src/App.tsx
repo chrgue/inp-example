@@ -3,17 +3,23 @@ import './App.css'
 import ReactLogo from "./components/ReactLogo.tsx";
 import {PokemonList} from "./components/PokemonList.tsx";
 import {Search} from "./components/Search.tsx";
-import {useState} from "react";
+import {startTransition, useState} from "react";
 
 const App = () => {
-    const [filterText, setFilterText] = useState("");
+    const initialState = "";
+    const [filterText, setFilterText] = useState(initialState);
+    const [inputText, setInputText] = useState(initialState);
+
     function onChange(text: string) {
-        setFilterText(text);
+        setInputText(text);
+        startTransition(() => {
+            setFilterText(text);
+        });
     }
 
     return (<>
         <ReactLogo src={reactLogo} alt="React logo"/>
-        <Search text={filterText} onChange={(text) => onChange(text)}/>
+        <Search text={inputText} onChange={(text) => onChange(text)}/>
         <PokemonList text={filterText}/>
     </>)
 }
